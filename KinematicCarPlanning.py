@@ -38,10 +38,10 @@ class KinematicCarPlanningDemo2D():
         self.setGoal()
         self.setPlanner()
 
-    def setBounds(self, high=10.0, low=-10.0, dim=2):
+    def setBounds(self, high=[10,10], low=[-10.0,-10], dim=2):
         bounds = ob.RealVectorBounds(dim)
-        bounds.setLow(low)
-        bounds.setHigh(high)
+        (bounds.low[0], bounds.low[1]) = low
+        (bounds.high[0], bounds.high[1]) = high
         self.state_space.setBounds(bounds)
 
     def setStart(self, x=0, y=0, yaw=0):
@@ -78,6 +78,6 @@ if __name__ == '__main__':
 
     demo.setStart(y=3, x=4, yaw=3.14)
     
+    demo.solve(5.0)
 
-    print type(demo.state_space)
-
+    demo.getPath
