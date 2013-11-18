@@ -9,7 +9,8 @@
 # Author: Mark Moll
 # Rice University Software Distribution License
 
-from math import pi
+import numpy as np
+from StringIO import StringIO
 
 # Import ompl assuming it's properly installed
 from ompl import base as ob
@@ -71,13 +72,17 @@ class KinematicCarPlanningDemo2D():
 
     def getPath(self):
         #TODO: check first if path exist else return error
-        return self.path
+        return self.path.asGeometric()
 
 if __name__ == '__main__':
     demo = KinematicCarPlanningDemo2D()
 
     demo.setStart(y=3, x=4, yaw=3.14)
+    demo.setGoal(y=1,x=1, yaw=3.14)
     
     demo.solve(5.0)
 
-    demo.getPath
+    path = demo.getPath()
+    print type(path)
+
+    print np.loadtxt(StringIO(path.printAsMatrix()))
