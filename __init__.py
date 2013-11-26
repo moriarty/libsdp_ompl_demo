@@ -1,9 +1,10 @@
 """
 ompl_demo package
 
-A package containing classes related to a simple Open Motion Planning Library Demo
+A package containing classes related to a simple agentified wrapper 
+of the Open Motion Planning Library 
 """
-__all__=['KinematicCarPlanning']
 
-from KinematicCarPlanning import KinematicCarPlanningDemo2D
+from ompl_demo.KinematicCarPlanning import KinematicCarPlanningDemo2D
 
+__all__=['KinematicCarPlanningDemo2D']
