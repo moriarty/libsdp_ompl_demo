@@ -21,16 +21,11 @@ from ompl import app as oa
 class KinematicCarPlanningDemo2D():
     """
     This simple Kinematic Car Planning Demo
-
-    TODO: everything atm.
     """
 
     def __init__(self):
         """
         Create a new Kinematic Car Planning Demo.
-
-        This constructor has no params atm. 
-        TODO: discuss adding named arguments.
         """
         self.car = oa.KinematicCarPlanning()
         self.state_space = self.car.getStateSpace()
@@ -39,7 +34,11 @@ class KinematicCarPlanningDemo2D():
         self.setGoal()
         self.setPlanner()
 
-    def setBounds(self, high=[10,10], low=[-10.0,-10], dim=2):
+    def setBounds(self, high=None, low=None, dim=2):
+        if high is None:
+            high = [10.0, 10.0]
+        if low is None:
+            low = [-10.0, -10.0]
         bounds = ob.RealVectorBounds(dim)
         (bounds.low[0], bounds.low[1]) = low
         (bounds.high[0], bounds.high[1]) = high
@@ -57,11 +56,9 @@ class KinematicCarPlanningDemo2D():
         self.goal().setYaw(yaw)
         self.car.setGoalState(self.goal, threshold)
 
-    def setPlanner(self):
-        ## TODO: Accept different planners. 
+    def setPlanner(self): 
         self.planner = oc.RRT(self.car.getSpaceInformation())
         self.car.setPlanner(self.planner)
-        ## This should be fixed later.
     
     def solve(self, time=1.0):
         if self.car.solve(time):
@@ -71,7 +68,6 @@ class KinematicCarPlanningDemo2D():
                     % self.car.getProblemDefinition().getSolutionDifference())
 
     def getPath(self):
-        #TODO: check first if path exist else return error
         return self.path.asGeometric()
 
 if __name__ == '__main__':
