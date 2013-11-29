@@ -110,6 +110,7 @@ class KinematicCarTwoPlannerDemo2D():
 
     def deletePath(self):
         self.path = None
+        self.car.clear()
 
     def getPlannerName(self):
         return self.car.getPlanner().getName()
@@ -120,32 +121,32 @@ def main():
 
     TODO: take path as command line argument
     """
-    time = 15
+    time = 5
     paths = []
     demo = KinematicCarTwoPlannerDemo2D()
 
     demo.setStart(y=10, x=-10, yaw=3.14)
-    demo.setGoal(y=-10,x=10, yaw=3.14)
+    demo.setGoal(y=10,x=10, yaw=3.14)
     demo.setBounds(high=[-50,50], low=[-50,50])
 
-    demo.setRRTPlanner()
+    for i in xrange(3):
+        demo.setRRTPlanner()
+        if demo.solve(time):
+            paths.append([demo.getPath(),demo.getPlannerName()+str(i)])
+            demo.deletePath()
+            print "Appended one path"
+        
+        demo.setPDSTPlanner()
+        if demo.solve(time):
+            paths.append([demo.getPath(),demo.getPlannerName()+str(i)])
+            demo.deletePath()
+            print "Appeneded one path"
 
-    if demo.solve(time):
-        paths.append([demo.getPath(),demo.getPlannerName()])
-        demo.deletePath()
-        print "Appended one path"
-    
-    demo.setPDSTPlanner()
-    if demo.solve(time):
-        paths.append([demo.getPath(),demo.getPlannerName()])
-        demo.deletePath()
-        print "Appeneded one path"
-
-    demo.setESTPlanner()
-    if demo.solve(time):
-        paths.append([demo.getPath(),demo.getPlannerName()])
-        demo.deletePath()
-        print "Appeneded one path"
+        demo.setESTPlanner()
+        if demo.solve(time):
+            paths.append([demo.getPath(),demo.getPlannerName()+str(i)])
+            demo.deletePath()
+            print "Appeneded one path"
 
     """
     demo.setKPIECEPlanner()
