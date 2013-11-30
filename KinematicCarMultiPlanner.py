@@ -89,12 +89,17 @@ class KinematicCarTwoPlannerDemo2D():
         self.planner = setGoalBias(goal_bias)
         self.car.setPlanner(self.planner)
 
-    def setESTPlanner(self): 
+    def setESTPlanner(self, goal_bias=0.05, r=0.00):
+        """ Sets up an EST Planner with goal_bias and range r""" 
         self.planner = oc.EST(self.car.getSpaceInformation())
+        self.planner.setGoalBias(goal_bias)
+        self.planner.setRange(r)
         self.car.setPlanner(self.planner)
 
-    def setKPIECEPlanner(self): 
+    def setKPIECEPlanner(self, goal_bias=0.05, border_fraction=0.80): 
         self.planner = oc.KPIECE1(self.car.getSpaceInformation())
+        self.planner.setGoalBias(goal_bias)
+        self.planner.setBorderFraction(border_fraction)
         self.car.setPlanner(self.planner)
     
     def solve(self, time=1.0):
@@ -117,17 +122,14 @@ class KinematicCarTwoPlannerDemo2D():
     def getPlannerName(self):
         return self.car.getPlanner().getName()
 
-    def setGoalBias(self, value=0.20):
+    def setPropagationStepSize(self, value=0.20):
         self.car.getSpaceInformation().setPropagationStepSize(value)
         self.car.setup()
 
-    def setControlDuration(self, min_steps=1, max_steps=20):
+    def setMinMaxControlDuration(self, min_steps=1, max_steps=20):
         self.car.getSpaceInformation().setMinMaxControlDuration(
             min_steps, max_steps)
         self.car.setup()
-
-    def setPropagationSize(self, value)
-        pass
 
 
 def main():
