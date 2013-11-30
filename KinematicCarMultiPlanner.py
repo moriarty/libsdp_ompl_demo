@@ -79,12 +79,14 @@ class KinematicCarTwoPlannerDemo2D():
         self.goal().setYaw(yaw)
         self.car.setGoalState(self.goal, threshold)
 
-    def setRRTPlanner(self): 
+    def setRRTPlanner(self, goal_bias=0.05): 
         self.planner = oc.RRT(self.car.getSpaceInformation())
+        self.planner = setGoalBias(goal_bias)
         self.car.setPlanner(self.planner)
     
-    def setPDSTPlanner(self): 
+    def setPDSTPlanner(self, goal_bias=0.05): 
         self.planner = oc.PDST(self.car.getSpaceInformation())
+        self.planner = setGoalBias(goal_bias)
         self.car.setPlanner(self.planner)
 
     def setESTPlanner(self): 
@@ -114,6 +116,18 @@ class KinematicCarTwoPlannerDemo2D():
 
     def getPlannerName(self):
         return self.car.getPlanner().getName()
+
+    def setGoalBias(self, value=0.20):
+        self.car.getSpaceInformation().setPropagationStepSize(value)
+        self.car.setup()
+
+    def setControlDuration(self, min_steps=1, max_steps=20):
+        self.car.getSpaceInformation().setMinMaxControlDuration(
+            min_steps, max_steps)
+        self.car.setup()
+
+    def setPropagationSize(self, value)
+        pass
 
 
 def main():
