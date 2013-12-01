@@ -41,7 +41,7 @@ def plotPathExample(data):
     plt.show()
 
 
-class KinematicCarTwoPlannerDemo2D():
+class KinematicCarMultiPlanner():
     """
     This simple Kinematic Car Planning Demo
     """
@@ -81,12 +81,12 @@ class KinematicCarTwoPlannerDemo2D():
 
     def setRRTPlanner(self, goal_bias=0.05): 
         self.planner = oc.RRT(self.car.getSpaceInformation())
-        self.planner = setGoalBias(goal_bias)
+        self.planner.setGoalBias(goal_bias)
         self.car.setPlanner(self.planner)
     
     def setPDSTPlanner(self, goal_bias=0.05): 
         self.planner = oc.PDST(self.car.getSpaceInformation())
-        self.planner = setGoalBias(goal_bias)
+        self.planner.setGoalBias(goal_bias)
         self.car.setPlanner(self.planner)
 
     def setESTPlanner(self, goal_bias=0.05, r=0.00):
@@ -96,7 +96,7 @@ class KinematicCarTwoPlannerDemo2D():
         self.planner.setRange(r)
         self.car.setPlanner(self.planner)
 
-    def setKPIECEPlanner(self, goal_bias=0.05, border_fraction=0.80): 
+    def setKPIECE1Planner(self, goal_bias=0.05, border_fraction=0.80): 
         self.planner = oc.KPIECE1(self.car.getSpaceInformation())
         self.planner.setGoalBias(goal_bias)
         self.planner.setBorderFraction(border_fraction)
@@ -114,6 +114,9 @@ class KinematicCarTwoPlannerDemo2D():
 
     def getPath(self):
         return self.path.asGeometric()
+
+    def clear(self):
+        self.car.clear()
 
     def deletePath(self):
         self.path = None
@@ -139,7 +142,7 @@ def main():
     """
     time = 5
     paths = []
-    demo = KinematicCarTwoPlannerDemo2D()
+    demo = KinematicCarMultiPlanner()
 
     demo.setStart(y=10, x=-10, yaw=3.14)
     demo.setGoal(y=10,x=10, yaw=3.14)
@@ -165,7 +168,7 @@ def main():
             print "Appeneded one path"
 
     """
-    demo.setKPIECEPlanner()
+    demo.setKPIECE1Planner()
     if demo.solve(time):
         paths.append([demo.getPath(),demo.getPlannerName()])
         demo.deletePath()
