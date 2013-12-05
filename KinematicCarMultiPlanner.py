@@ -134,6 +134,12 @@ class KinematicCarMultiPlanner():
             min_steps, max_steps)
         self.car.setup()
 
+    def setStateValidityChecker(self, checker_fn):
+        if callable(checker_fn):
+            self.car.setStateValidityChecker(
+                ob.StateValidityCheckerFn(checker_fn))
+
+
 
 def main():
     """Run an example of pathVisualizer
