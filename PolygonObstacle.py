@@ -23,5 +23,5 @@ class PolygonObstacle(object):
     def isInside(self, state):
         x = state.getX()
         y = state.getY()
-        return self.polygon.isInside(x, y)
+        return not self.polygon.isInside(x, y)
 
