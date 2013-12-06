@@ -134,10 +134,13 @@ class KinematicCarMultiPlanner():
             min_steps, max_steps)
         self.car.setup()
 
-    def setStateValidityChecker(self, checker_fn):
+    def setStateValidityChecker(self, checker_fn=True):
         if callable(checker_fn):
-            self.car.setStateValidityChecker(
-                ob.StateValidityCheckerFn(checker_fn))
+            fn = checker_fn
+        else:
+            fn = lambda state: True
+        self.car.setStateValidityChecker(
+                ob.StateValidityCheckerFn(fn))
 
 
 
