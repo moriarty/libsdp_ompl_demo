@@ -41,17 +41,18 @@ def plotPathExample(data):
     plt.show()
 
 
-class KinematicCarMultiPlanner():
+class GeometricMultiPlanner():
     """
-    This simple Kinematic Car Planning Demo
+    This simple geometric Planning Demo
     """
 
     def __init__(self):
         """
         Create a new Kinematic Car Planning Demo.
         """
-        self.car = oa.KinematicCarPlanning()
-        self.state_space = self.car.getStateSpace()
+        
+        self.state_space = ob.SE2StateSpace()
+        self.car = og.SimpleSetup(self.state_space)
         self.setBounds()
         self.setStart()
         self.setGoal()
@@ -104,6 +105,7 @@ class KinematicCarMultiPlanner():
     
     def solve(self, time=1.0):
         if self.car.solve(time):
+            self.car.simplifySolution()
             self.path = self.car.getSolutionPath()
             if not self.car.haveExactSolutionPath():
                 print("Solution is approximate. Distance to actual goal is %g" 
@@ -151,7 +153,7 @@ def main():
     """
     time = 5
     paths = []
-    demo = KinematicCarMultiPlanner()
+    demo = GeometricMultiPlanner()
 
     demo.setStart(y=10, x=-10, yaw=3.14)
     demo.setGoal(y=10,x=10, yaw=3.14)
