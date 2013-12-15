@@ -81,24 +81,24 @@ class GeometricMultiPlanner():
         self.car.setGoalState(self.goal, threshold)
 
     def setRRTPlanner(self, goal_bias=0.05): 
-        self.planner = oc.RRT(self.car.getSpaceInformation())
+        self.planner = og.RRT(self.car.getSpaceInformation())
         self.planner.setGoalBias(goal_bias)
         self.car.setPlanner(self.planner)
     
     def setPDSTPlanner(self, goal_bias=0.05): 
-        self.planner = oc.PDST(self.car.getSpaceInformation())
+        self.planner = og.PDST(self.car.getSpaceInformation())
         self.planner.setGoalBias(goal_bias)
         self.car.setPlanner(self.planner)
 
     def setESTPlanner(self, goal_bias=0.05, r=0.00):
         """ Sets up an EST Planner with goal_bias and range r""" 
-        self.planner = oc.EST(self.car.getSpaceInformation())
+        self.planner = og.EST(self.car.getSpaceInformation())
         self.planner.setGoalBias(goal_bias)
         self.planner.setRange(r)
         self.car.setPlanner(self.planner)
 
     def setKPIECE1Planner(self, goal_bias=0.05, border_fraction=0.80): 
-        self.planner = oc.KPIECE1(self.car.getSpaceInformation())
+        self.planner = og.KPIECE1(self.car.getSpaceInformation())
         self.planner.setGoalBias(goal_bias)
         self.planner.setBorderFraction(border_fraction)
         self.car.setPlanner(self.planner)
@@ -115,26 +115,23 @@ class GeometricMultiPlanner():
             return False
 
     def getPath(self):
-        return self.path.asGeometric()
+        return self.car.getSolutionPath()
 
     def clear(self):
         self.car.clear()
 
     def deletePath(self):
         self.path = None
-        self.car.clear()
+        #self.car.clear()
+        pass
 
     def getPlannerName(self):
         return self.car.getPlanner().getName()
 
-    def setPropagationStepSize(self, value=0.20):
-        self.car.getSpaceInformation().setPropagationStepSize(value)
-        self.car.setup()
+    def setCollisonCheckingResolution(self, value=0.010):
+        self.car.getSpaceInformation().setStateValidityCheckingResolution(
+            value)
 
-    def setMinMaxControlDuration(self, min_steps=1, max_steps=20):
-        self.car.getSpaceInformation().setMinMaxControlDuration(
-            min_steps, max_steps)
-        self.car.setup()
 
     def setStateValidityChecker(self, checker_fn=True):
         if callable(checker_fn):
