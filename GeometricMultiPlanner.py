@@ -25,19 +25,16 @@ from itertools import product, combinations
 
 def plotPathExample(data):
     """Plot a path using matplotlib pyplot
-
-    TODO: Something nicer, ie plotting class which returns axes.
-    TODO: Check omplapp to see how easy it is to use the gui for Visualization.
     It's still nice to have a pathVisualizer without the gui, for quick tests.
     """
     fig = plt.figure()
     axes = fig.gca(projection='3d')
     # draw box which is our simple invalid statespace box. HARDCODED.
     r = [-2, 2]
-    for s, e in combinations(np.array(list(product(r,r))), 2):
+    for s, e in combinations(np.array(list(product(r, r))), 2):
         if np.sum(np.abs(s-e)) == r[1]-r[0]:
-            axes.plot3D(*zip(s,e), color="b")
-    axes.plot(data[:,0],data[:,1],'.-',c="r")
+            axes.plot3D(*zip(s, e), color="b")
+    axes.plot(data[:, 0], data[:, 1], '.-', c="r")
     plt.show()
 
 
@@ -144,9 +141,8 @@ class GeometricMultiPlanner():
 
 
 def main():
-    """Run an example of pathVisualizer
-
-    TODO: take path as command line argument
+    """
+    Main function of the GeometricMultiPlanner starts here
     """
     time = 5
     paths = []
